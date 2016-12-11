@@ -40,9 +40,9 @@ public class PetDaotest {
         HashSet<Tag> tags = new HashSet<Tag>();
         p.setName("cookie");
         HashSet<PhotoUrl> urls = new HashSet<PhotoUrl>();
-        urls.add(new PhotoUrl("1"));
+        /*urls.add(new PhotoUrl("1"));
         urls.add(new PhotoUrl("2"));
-        p.setPhotoUrls(urls);
+        p.setPhotoUrls(urls);*/
         p.setStatus(PetStatus.Available);
         Category cat = categoryRepository.findOne(1l);
         tags.add(tagRepository.findOne(1l));

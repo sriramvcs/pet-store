@@ -1,8 +1,6 @@
 package com.project.petstore.entity;
 
 import com.project.petstore.enums.PetStatus;
-import com.sun.tools.javac.util.List;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,8 +30,8 @@ public class Pet {
     @JoinTable(name = "pet_tag", joinColumns = @JoinColumn(name = "pet_id",referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "tag_id",referencedColumnName = "id"))
     private Set<Tag> tags;
 
-    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
-    private Set<PhotoUrl> photoUrls;
+//    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
+//    private Set<PhotoUrl> photoUrls;
 
     @Enumerated(EnumType.STRING)
     private PetStatus status;

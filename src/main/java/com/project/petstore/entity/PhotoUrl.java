@@ -19,9 +19,9 @@ public class PhotoUrl {
     private Long id;
     private String url;
 
-    @ManyToOne
-    @JoinColumn(name = "pet_id")
-    private Pet pet;
+//    @ManyToOne
+//    @JoinColumn(name = "pet_id")
+//    private Pet pet;
 
     public PhotoUrl(String url) {
         this.url = url;

@@ -1,19 +1,11 @@
 package com.project.petstore.integrationtests;
 
-import com.jayway.restassured.http.ContentType;
-import com.project.petstore.data.PetModel;
-import com.project.petstore.data.PetModelTest;
-import lombok.Data;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.jayway.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import static com.jayway.restassured.RestAssured.get;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Created by sriramvcs on 2016-12-03.
@@ -24,9 +16,10 @@ import static org.hamcrest.Matchers.*;
 public class PetRestIT {
 
     private static final String PET_ENDPOINT = "/pet/";
+
     @Test
     public void test1EchoTest() {
-        get("/echo/sriram").then().assertThat().body("message",equalTo("sriram"));
+        get("/echo/sriram").then().assertThat().body("message", equalTo("sriram"));
     }
 
 //    @Test
@@ -36,7 +29,6 @@ public class PetRestIT {
 //                .when().post(PET_ENDPOINT).then()
 //                .assertThat().statusCode(equalTo(HttpStatus.OK.value()));
 //    }
-
 
 
 }

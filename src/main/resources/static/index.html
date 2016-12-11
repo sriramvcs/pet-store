@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="petApp">
+<head>
+    <title>Pet Store</title>
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" type="text/css" rel="stylesheet" />
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" type="text/css" rel="stylesheet"/>
+    <!--<link-->
+            <!--href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"-->
+            <!--rel="stylesheet"-->
+            <!--integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"-->
+            <!--crossorigin="anonymous">-->
+    <link
+            href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cerulean/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-fUMURLTdEcpeYHly3PAwggI3l2UvdHNg/I+8LRph7hLDcAZm77YfDx3Tjum9d3vK"
+            crossorigin="anonymous">
+
+    <style>
+        body {
+            padding-top: 60px;
+        }
+
+        .view-content{
+            padding-top: 50px;
+        }
+
+        .hasError{
+            color:#B82934;
+        }
+        .top-buffer { margin-top:20px; }
+
+    </style>
+
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <h1>Spock Pet Store</h1>
+        </div>
+    </div>
+</div>
+    <div class="view-content"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-primary" ng-controller="petAppController as ctrl">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create Pet</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" ng-submit="ctrl.submit()" name="petForm">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="petName">Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" ng-model="ctrl.pet.name" name="petName" id="petName" placeholder="Enter pet name" required ng-minlength="4"/>
+                                    <div class="hasError" ng-show="petForm.$dirty">
+                                        <span ng-show="petForm.petName.$error.required">This is a required field</span>
+                                        <span ng-show="petForm.petName.$error.minlength">Minimum length required is 3</span>
+                                        <span ng-show="petForm.petName.$invalid">This field is invalid </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="category" class="col-sm-3 control-label">Category</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="category" id="category" ng-model="ctrl.pet.selectedCategory" ng-options="item as item.name for item in ctrl.categories" required="required">
+
+                                    </select>
+                                    <div class="hasError" ng-show="petForm.$dirty">
+                                        <span ng-show="petForm.category.$error.required">This is a required field</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="status" class="col-sm-3 control-label">Status</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="status" id="status" ng-model="ctrl.pet.status" ng-options="item as item for item in ctrl.statuses" required="required">
+
+                                    </select>
+                                    <div class="hasError" ng-show="petForm.$dirty">
+                                        <span ng-show="petForm.status.$error.required">This is a required field</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="photoUrls">PhotoUrls</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" ng-model="ctrl.pet.photoUrls" id="photoUrls" placeholder="Comma separated list of URLS"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="petTags">Tags</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" multiple="multiple" id="petTags" name="petTags" ng-model="ctrl.pet.selectedTags" ng-options="item as item.name for item in ctrl.tags" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <input type="submit"  value="Create" class="btn btn-primary btn-sm">
+                                    <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm">Reset Form</button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="item in ctrl.petList">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.category.name}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script src="./app/app.js"></script>
+<!--<script src="./app/factory/factory.js"></script>-->
+<!--<script src="./app/controller/routes.js"></script>-->
+<!--<script src="./app/controller/userController.js"></script>-->
+</body>
+
+
+</html>
