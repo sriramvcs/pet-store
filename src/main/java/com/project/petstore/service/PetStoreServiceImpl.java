@@ -7,11 +7,13 @@ import com.project.petstore.data.CategoryModel;
 import com.project.petstore.data.PetModel;
 import com.project.petstore.data.TagModel;
 import com.project.petstore.entity.Category;
+import com.project.petstore.entity.Pet;
 import com.project.petstore.entity.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -47,9 +49,14 @@ public class PetStoreServiceImpl implements PetStoreService {
             obj.setId(item.getId());
             obj.setName(item.getName());
             obj.setStatus(item.getStatus());
-            obj.setTags(buildTagModelList(item.getTags()));
-            obj.setCategory(new CategoryModel(item.getCategory().getId(),item.getCategory().getName()));
-            // add photo URLS
+            if(item.getTags()!=null || (!item.getTags().isEmpty())){
+                obj.setTags(buildTagModelList(item.getTags()));
+            }
+            if(item.getCategory()!=null) {
+                obj.setCategory(new CategoryModel(item.getCategory().getId(),item.getCategory().getName()));
+            }
+            obj.setPhotoUrls(item.getPhotoUrls());
+            obj.setPetId(item.getPetId());
             resultList.add(obj);
 
         });
@@ -58,17 +65,30 @@ public class PetStoreServiceImpl implements PetStoreService {
 
     @Override
     public void addPet(PetModel pet) {
-
+        petRepository.save(buildPetEntity(pet));
     }
 
     @Override
-    public PetModel getPetById(Long id) {
-        return null;
+    public PetModel getPetById(Long petId) {
+        Pet entity = petRepository.findByPetId(petId);
+        return new PetModel(){{
+            this.setPetId(entity.getPetId());
+            this.setId(entity.getId());
+            this.setName(entity.getName());
+            this.setPhotoUrls(entity.getPhotoUrls());
+            this.setCategory(new CategoryModel(entity.getCategory().getId(),entity.getCategory().getName()));
+            List<TagModel> tags = new ArrayList<>();
+            entity.getTags().forEach(item->{
+                tags.add(new TagModel(item.getId(),item.getName()));
+            });
+            this.setTags(tags);
+            this.setStatus(entity.getStatus());
+        }};
     }
 
     @Override
-    public void deletePet(Long id) {
-
+    public void deleteByPetId(Long id) {
+        petRepository.deleteByPetId(id);
     }
 
 
@@ -89,5 +109,34 @@ public class PetStoreServiceImpl implements PetStoreService {
             result.add(new CategoryModel(item.getId(),item.getName()));
         });
         return  result;
+    }
+
+    private HashSet<Tag> buildTagEntityList(List<TagModel> tags) {
+        HashSet<Tag> resultList = new HashSet<>();
+        tags.forEach(item->{
+            resultList.add(new Tag(){{
+                this.setName(item.getName());
+                this.setId(item.getId());
+            }});
+        });
+        return resultList;
+    }
+    private Pet buildPetEntity(PetModel model) {
+        Pet entity = new Pet();
+        entity.setName(model.getName());
+        entity.setStatus(model.getStatus());
+        entity.setPhotoUrls(model.getPhotoUrls());
+        entity.setPetId(model.getPetId());
+        if(model.getCategory()!=null) {
+            entity.setCategory(new Category(){{
+                this.setName(model.getCategory().getName());
+                this.setId(model.getCategory().getId());
+            }});
+        }
+        if(model.getTags()!=null || (!model.getTags().isEmpty())) {
+            entity.setTags(buildTagEntityList(model.getTags()));
+        }
+        return entity;
+
     }
 }

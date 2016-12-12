@@ -17,11 +17,10 @@ public class PhotoUrl {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String url;
 
-//    @ManyToOne
-//    @JoinColumn(name = "pet_id")
-//    private Pet pet;
+//    private Long pet_id;
 
     public PhotoUrl(String url) {
         this.url = url;

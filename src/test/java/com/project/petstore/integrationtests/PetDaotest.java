@@ -2,6 +2,7 @@ package com.project.petstore.integrationtests;
 
 import com.project.petstore.dao.CategoryRepository;
 import com.project.petstore.dao.PetRepository;
+import com.project.petstore.dao.PhotoUrlRepository;
 import com.project.petstore.dao.TagRepository;
 import com.project.petstore.entity.Category;
 import com.project.petstore.entity.Pet;
@@ -15,7 +16,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 
@@ -39,24 +42,21 @@ public class PetDaotest {
         Pet p = new Pet();
         HashSet<Tag> tags = new HashSet<Tag>();
         p.setName("cookie");
-        HashSet<PhotoUrl> urls = new HashSet<PhotoUrl>();
-        /*urls.add(new PhotoUrl("1"));
-        urls.add(new PhotoUrl("2"));
-        p.setPhotoUrls(urls);*/
+        p.setPetId(10001l);
         p.setStatus(PetStatus.Available);
         Category cat = categoryRepository.findOne(1l);
         tags.add(tagRepository.findOne(1l));
         p.setCategory(cat);
         p.setTags(tags);
+        p.setPhotoUrls("1,2,4");
         petRepository.save(p);
-
         Assert.assertEquals(petRepository.findByName("cookie").getName(),"cookie");
     }
 
     @Test
     public void test2DeletePetEntity() {
         Pet p = petRepository.findByName("cookie");
-        petRepository.delete(p.getId());
+        petRepository.deleteByPetId(10001l);
         Assert.assertEquals(petRepository.findByName("cookie"),null);
     }
 }

@@ -34,7 +34,7 @@
     </style>
 
 </head>
-<body>
+<body ng-controller="petAppController as ctrl">
 
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
@@ -48,7 +48,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <div class="panel panel-primary" ng-controller="petAppController as ctrl">
+                <div class="panel panel-primary" >
                     <div class="panel-heading">
                         <h3 class="panel-title">Create Pet</h3>
                     </div>
@@ -70,9 +70,23 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-3 control-label" for="petId">Pet ID</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" ng-model="ctrl.pet.petId" name="petId" id="petId" placeholder="Enter ID" required max="10000000"/>
+                                    <div class="hasError" ng-show="petForm.$dirty">
+                                        <span ng-show="petForm.petId.$error.required">This is a required field</span>
+                                        <span ng-show="petForm.petId.$error.max">Value has to be less than 10000000</span>
+                                        <span ng-show="petForm.petId.$invalid">This field is invalid </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-group">
                                 <label for="category" class="col-sm-3 control-label">Category</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="category" id="category" ng-model="ctrl.pet.selectedCategory" ng-options="item as item.name for item in ctrl.categories" required="required">
+                                    <select class="form-control" name="category" id="category" ng-model="ctrl.pet.category" ng-options="item as item.name for item in ctrl.categories" required="required">
 
                                     </select>
                                     <div class="hasError" ng-show="petForm.$dirty">
@@ -105,7 +119,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="petTags">Tags</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" multiple="multiple" id="petTags" name="petTags" ng-model="ctrl.pet.selectedTags" ng-options="item as item.name for item in ctrl.tags" />
+                                    <select class="form-control" multiple="multiple" id="petTags" name="petTags" ng-model="ctrl.pet.tags" ng-options="item as item.name for item in ctrl.tags" />
                                 </div>
                             </div>
 
@@ -125,15 +139,18 @@
             <div class="col-md-7">
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <th>ID</th>
+                        <th>Pet ID</th>
                         <th>Name</th>
                         <th>Category</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
                     <tr ng-repeat="item in ctrl.petList">
-                        <td>{{item.id}}</td>
+                        <td><a href="#">{{item.petId}}</a></td>
                         <td>{{item.name}}</td>
                         <td>{{item.category.name}}</td>
+                        <td>{{item.status}}</td>
+                        <td><a href="" ng-click="ctrl.deletePet(item.petId)">Delete</a></td>
                     </tr>
                 </table>
             </div>
@@ -145,9 +162,6 @@
 
 <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
 <script src="./app/app.js"></script>
-<!--<script src="./app/factory/factory.js"></script>-->
-<!--<script src="./app/controller/routes.js"></script>-->
-<!--<script src="./app/controller/userController.js"></script>-->
 </body>
 
 

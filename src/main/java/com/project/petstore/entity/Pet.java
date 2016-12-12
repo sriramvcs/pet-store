@@ -20,6 +20,9 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name="pet_id",unique = true)
+    protected Long petId;
+
     private String name;
 
     @ManyToOne
@@ -30,8 +33,8 @@ public class Pet {
     @JoinTable(name = "pet_tag", joinColumns = @JoinColumn(name = "pet_id",referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "tag_id",referencedColumnName = "id"))
     private Set<Tag> tags;
 
-//    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
-//    private Set<PhotoUrl> photoUrls;
+    @Column(name = "photo_urls")
+    private String photoUrls;
 
     @Enumerated(EnumType.STRING)
     private PetStatus status;

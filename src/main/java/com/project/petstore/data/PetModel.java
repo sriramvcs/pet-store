@@ -16,9 +16,11 @@ import java.util.List;
 public class PetModel {
 
     private Long id;
+    private Long petId;
     private String name;
     private CategoryModel category;
     private List<TagModel> tags = new ArrayList<>();
     private PetStatus status;
-    // TODO add photo URLS
+    private String photoUrls; // comma separated list
+
 }

@@ -21,5 +21,5 @@ public interface PetStoreService {
 
     PetModel getPetById(Long id);
 
-    void deletePet(Long id);
+    void deleteByPetId(Long id);
 }

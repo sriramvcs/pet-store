@@ -3,9 +3,6 @@ package com.project.petstore.controller;
 import com.project.petstore.data.CategoryModel;
 import com.project.petstore.data.PetModel;
 import com.project.petstore.data.TagModel;
-import com.project.petstore.entity.Category;
-import com.project.petstore.entity.Pet;
-import com.project.petstore.entity.Tag;
 import com.project.petstore.service.PetStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +35,8 @@ public class PetRestController {
     }
 
     @RequestMapping(path="/pet/{petId}", method= RequestMethod.DELETE)
-    public void deletePet(@PathVariable Long id) {
-        petStoreService.deletePet(id);
+    public void deletePet(@PathVariable Long petId) {
+        petStoreService.deleteByPetId(petId);
     }
 
     @RequestMapping(path="/pets/categories", method= RequestMethod.GET)
@@ -51,4 +48,6 @@ public class PetRestController {
     public List<TagModel> getTags() {
         return petStoreService.getAllTags();
     }
+
+
 }

@@ -17,4 +17,6 @@ public class TagModel {
         this.id = id;
         this.name = name;
     }
+
+    public TagModel() {};
 }
